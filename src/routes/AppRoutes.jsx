@@ -1,34 +1,24 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from "../pages/auth/Login";
+import RecoverPassword from "../pages/auth/RecoverPassword";
+import AdminDashboard from "../pages/admin/Dashboard";
+import CoordenadorDashboard from "../pages/coordenador/Dashboard";
+import EstagiarioDashboard from "../pages/estagiario/MeuEstagio";
+import ProtectedRoute from "./ProtectedRoute";
 
-export const AppRoutes = () => {
-  const { user } = useAuth();
-
-  return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/recover" element={<RecoverPassword />} />
-
-        {user?.role === 'ADMIN' && (
-          <>
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/users" element={<AdminUsers />} />
-          </>
-        )}
-
-        {user?.role === 'CHEFE_REPARTICAO' && (
-          <>
-            <Route path="/chefe/dashboard" element={<ChefeDashboard />} />
-            <Route path="/chefe/instituicoes" element={<Instituicoes />} />
-            <Route path="/chefe/estagios" element={<Estagios />} />
-          </>
-        )}
-
-        {/* Continue para coordenador, estagiário, supervisor e tutor */}
-
-        <Route path="*" element={<Navigate to="/login" />} />
-      </Routes>
-    </Router>
-  );
-};
+export const AppRoutes = () => (
+  <Routes>
+    <Route path="/login" element={<Login />} />
+    <Route path="/recover" element={<RecoverPassword />} />
+    <Route path="/admin/dashboard" element={
+      <ProtectedRoute allowedRoles={["ADMIN"]}><AdminDashboard /></ProtectedRoute>
+    }/>
+    <Route path="/dashboards/coordenador" element={
+      <ProtectedRoute allowedRoles={["COORDENADOR"]}><CoordenadorDashboard /></ProtectedRoute>
+    }/>
+    <Route path="/dashboards/estagiario" element={
+      <ProtectedRoute allowedRoles={["ESTAGIARIO"]}><EstagiarioDashboard /></ProtectedRoute>
+    }/>
+    <Route path="*" element={<Navigate to="/login" />} />
+  </Routes>
+);
