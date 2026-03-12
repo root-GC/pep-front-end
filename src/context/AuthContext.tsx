@@ -1,14 +1,33 @@
-import React from "react"
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
-import { getUser, getRoles } from "../utils/auth.js";
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 
+// Funções utilitárias para pegar dados do localStorage
+export const getUser = () => {
+  const saved = localStorage.getItem("user");
+  return saved ? JSON.parse(saved) : null;
+};
+
+export const getRoles = () => {
+  const saved = localStorage.getItem("roles");
+  return saved ? JSON.parse(saved) : [];
+};
+
+// Tipo do contexto
 interface AuthContextType {
   user: any;
   roles: string[];
   setUser: (user: any) => void;
+  setRoles: (roles: string[]) => void;
+  logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, roles: [], setUser: () => {} });
+// Criação do contexto
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  roles: [],
+  setUser: () => {},
+  setRoles: () => {},
+  logout: () => {},
+});
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState(getUser());
@@ -19,7 +38,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setRoles(getRoles());
   }, []);
 
-  return <AuthContext.Provider value={{ user, roles, setUser }}>{children}</AuthContext.Provider>;
+  // Função de logout
+  const logout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("roles");
+    setUser(null);
+    setRoles([]);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, roles, setUser, setRoles, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
+// Hook para usar o contexto
 export const useAuth = () => useContext(AuthContext);

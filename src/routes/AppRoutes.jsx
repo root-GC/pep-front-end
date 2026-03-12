@@ -1,13 +1,14 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../pages/auth/Login";
 import RecoverPassword from "../pages/auth/RecoverPassword";
-import AdminDashboard from "../pages/admin/Dashboard";
+import AdminDashboard from "../pages/admin/DashboardAdmin";
 import CoordenadorDashboard from "../pages/coordenador/Dashboard";
 import EstagiarioDashboard from "../pages/estagiario/MeuEstagio";
 import ProtectedRoute from "./ProtectedRoute";
 
 export const AppRoutes = () => (
   <Routes>
+    
     <Route path="/login" element={<Login />} />
     <Route path="/recover" element={<RecoverPassword />} />
     <Route path="/admin/dashboard" element={

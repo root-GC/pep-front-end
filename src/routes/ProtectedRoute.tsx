@@ -11,6 +11,11 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   const { user, roles } = useAuth();
 
+  console.log("DEBUG ProtectedRoute");
+  console.log("user:", user);
+  console.log("roles:", roles);
+  console.log("allowedRoles:", allowedRoles);
+
   if (!user) return <Navigate to="/login" />; // não logado
 
   if (allowedRoles && !roles.some(r => allowedRoles.includes(r))) {

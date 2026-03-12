@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import api from '../../api/api.js';
 import './css/Login.css';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext.js";
+
 
 
 const dashboardByRole: Record<string, string> = {
@@ -16,28 +18,34 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
+  const { setUser, setRoles } = useAuth();
 
    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const response = await api.post("/auth/login", { email, password });
-      const { user, token } = response.data;
+  e.preventDefault();
+  try {
+    const response = await api.post("/auth/login", { email, password });
+    const { user, token } = response.data;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("roles", JSON.stringify(user.roles.map((r: any) => r.name)));
+    // Guardar token e dados no localStorage
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("roles", JSON.stringify(user.roles.map((r: any) => r.name)));
 
-      // Redireciona para o dashboard baseado na primeira role
-      const role = user.roles[0]?.name;
-      const target = dashboardByRole[role] || "/login";
-      navigate(target);
+    // Atualiza o contexto para ProtectedRoute funcionar
+    setUser(user);
+    setRoles(user.roles.map((r: any) => r.name));
 
-    } catch (error: any) {
-      alert("Credenciais inválidas");
-      console.error("Erro no login", error);
-    }
-  };
+    // Redireciona para o dashboard baseado na primeira role
+    const role = user.roles[0]?.name;
+    const target = dashboardByRole[role] || "/login";
+    navigate(target);
+    console.log(target);
+
+  } catch (error: any) {
+    alert("Credenciais inválidas");
+    console.error("Erro no login", error);
+  }
+};
 
 
   return (
