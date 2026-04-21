@@ -34,10 +34,10 @@ const DashboardAdmin = () => {
   // ========== Courses State ==========
   const [cursos, setCursos] = useState([]);
   const [cursoForm, setCursoForm] = useState({
-    titulo: "",
+    nome: "",
     instituicao: "",
     duracao: "",
-    objetivos: "",
+    descricao: "",
   });
   const [editingCurso, setEditingCurso] = useState(null);
   const [editCursoData, setEditCursoData] = useState({
@@ -180,7 +180,7 @@ const DashboardAdmin = () => {
       await fetchCursos();
     } catch (err) {
       console.error(err);
-      toast.error("Erro ao criar curso");
+      toast.error("Erro ao criar curso " + err.message);
     }
   };
 
@@ -207,7 +207,8 @@ const DashboardAdmin = () => {
   };
 
   const handleDeleteCurso = async (id) => {
-    if (!window.confirm("Tem a certeza que pretende eliminar este curso?")) return;
+    if (!window.confirm("Tem a certeza que pretende eliminar este curso?"))
+      return;
     try {
       await deleteCurso(id);
       toast.success("Curso eliminado");
@@ -239,16 +240,22 @@ const DashboardAdmin = () => {
 
   // ========== Filter Helpers ==========
   const filteredUsers = users.filter((user) =>
-    `${user.name} ${user.email}`.toLowerCase().includes(searchTerm.toLowerCase())
+    `${user.name} ${user.email}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase()),
   );
   const filteredCursos = cursos.filter((curso) =>
-    `${curso.titulo} ${curso.instituicao}`.toLowerCase().includes(searchTerm.toLowerCase())
+    `${curso.titulo} ${curso.instituicao}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase()),
   );
   const filteredLogs = logs.filter((log) =>
-    JSON.stringify(log).toLowerCase().includes(searchTerm.toLowerCase())
+    JSON.stringify(log).toLowerCase().includes(searchTerm.toLowerCase()),
   );
   const filteredActiveUsers = activeUsers.filter((user) =>
-    `${user.name} ${user.email}`.toLowerCase().includes(searchTerm.toLowerCase())
+    `${user.name} ${user.email}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase()),
   );
 
   // ========== Render Sections ==========
@@ -297,14 +304,22 @@ const DashboardAdmin = () => {
                       </div>
                     </td>
                     <td>{user.email}</td>
-                    <td>{user.role === "CHEFE_REPARTICAO" ? "Chefe de Repartição" : user.role}</td>
+                    <td>
+                      {user.role === "CHEFE_REPARTICAO"
+                        ? "Chefe de Repartição"
+                        : user.role}
+                    </td>
                     <td>
                       {user.ativo ? (
-                        <span className={`${styles.statusBadge} ${styles.statusActive}`}>
+                        <span
+                          className={`${styles.statusBadge} ${styles.statusActive}`}
+                        >
                           Ativo
                         </span>
                       ) : (
-                        <span className={`${styles.statusBadge} ${styles.statusInactive}`}>
+                        <span
+                          className={`${styles.statusBadge} ${styles.statusInactive}`}
+                        >
                           Suspenso
                         </span>
                       )}
@@ -316,7 +331,9 @@ const DashboardAdmin = () => {
                           onClick={() => handleEditUser(user)}
                           title="Editar"
                         >
-                          <span className="material-symbols-outlined">edit</span>
+                          <span className="material-symbols-outlined">
+                            edit
+                          </span>
                         </button>
                         {user.ativo ? (
                           <button
@@ -324,7 +341,9 @@ const DashboardAdmin = () => {
                             onClick={() => handleDesativarUser(user.id)}
                             title="Suspender"
                           >
-                            <span className="material-symbols-outlined">block</span>
+                            <span className="material-symbols-outlined">
+                              block
+                            </span>
                           </button>
                         ) : (
                           <button
@@ -332,7 +351,9 @@ const DashboardAdmin = () => {
                             onClick={() => handleAtivarUser(user.id)}
                             title="Reativar"
                           >
-                            <span className="material-symbols-outlined">check_circle</span>
+                            <span className="material-symbols-outlined">
+                              check_circle
+                            </span>
                           </button>
                         )}
                       </div>
@@ -351,7 +372,9 @@ const DashboardAdmin = () => {
 
         {/* Register Chefe Form */}
         <div className={styles.formColumn}>
-          <h3 className={styles.formSectionTitle}>Registar Chefe de Repartição</h3>
+          <h3 className={styles.formSectionTitle}>
+            Registar Chefe de Repartição
+          </h3>
           <div className={styles.formCard}>
             <form className={styles.form} onSubmit={handleCreateChefe}>
               <div className={styles.formGroup}>
@@ -385,7 +408,9 @@ const DashboardAdmin = () => {
                 />
               </div>
               <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Confirmar Palavra-passe</label>
+                <label className={styles.formLabel}>
+                  Confirmar Palavra-passe
+                </label>
                 <input
                   type="password"
                   className={styles.formInput}
@@ -402,7 +427,8 @@ const DashboardAdmin = () => {
           <div className={styles.infoNote}>
             <span className="material-symbols-outlined">info</span>
             <p className={styles.infoText}>
-              Nota: Novos chefes de repartição terão acesso imediato ao sistema após registo.
+              Nota: Novos chefes de repartição terão acesso imediato ao sistema
+              após registo.
             </p>
           </div>
         </div>
@@ -410,7 +436,10 @@ const DashboardAdmin = () => {
 
       {/* Edit User Modal */}
       {editingUser && (
-        <div className={styles.modalOverlay} onClick={() => setEditingUser(null)}>
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setEditingUser(null)}
+        >
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <h3>Editar Utilizador</h3>
             <form onSubmit={handleUpdateUser}>
@@ -420,7 +449,9 @@ const DashboardAdmin = () => {
                   type="text"
                   className={styles.formInput}
                   value={editUserData.name}
-                  onChange={(e) => setEditUserData({ ...editUserData, name: e.target.value })}
+                  onChange={(e) =>
+                    setEditUserData({ ...editUserData, name: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -430,15 +461,23 @@ const DashboardAdmin = () => {
                   type="email"
                   className={styles.formInput}
                   value={editUserData.email}
-                  onChange={(e) => setEditUserData({ ...editUserData, email: e.target.value })}
+                  onChange={(e) =>
+                    setEditUserData({ ...editUserData, email: e.target.value })
+                  }
                   required
                 />
               </div>
               <div className={styles.modalButtons}>
-                <button type="button" onClick={() => setEditingUser(null)} className={styles.cancelBtn}>
+                <button
+                  type="button"
+                  onClick={() => setEditingUser(null)}
+                  className={styles.cancelBtn}
+                >
                   Cancelar
                 </button>
-                <button type="submit" className={styles.submitBtn}>Actualizar</button>
+                <button type="submit" className={styles.submitBtn}>
+                  Actualizar
+                </button>
               </div>
             </form>
           </div>
@@ -468,8 +507,8 @@ const DashboardAdmin = () => {
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>Título</th>
-                  <th>Instituição</th>
+                  <th>Nome</th>
+                  <th>Descrição</th>
                   <th>Duração</th>
                   <th>Status</th>
                   <th className={styles.textRight}>Ações</th>
@@ -478,14 +517,22 @@ const DashboardAdmin = () => {
               <tbody>
                 {filteredCursos.map((curso) => (
                   <tr key={curso.id}>
-                    <td>{curso.titulo}</td>
-                    <td>{curso.instituicao}</td>
+                    <td>{curso.nome}</td>
+                    <td>{curso.descricao}</td>
                     <td>{curso.duracao}</td>
                     <td>
                       {curso.ativo ? (
-                        <span className={`${styles.statusBadge} ${styles.statusActive}`}>Ativo</span>
+                        <span
+                          className={`${styles.statusBadge} ${styles.statusActive}`}
+                        >
+                          Ativo
+                        </span>
                       ) : (
-                        <span className={`${styles.statusBadge} ${styles.statusInactive}`}>Inativo</span>
+                        <span
+                          className={`${styles.statusBadge} ${styles.statusInactive}`}
+                        >
+                          Inativo
+                        </span>
                       )}
                     </td>
                     <td className={styles.textRight}>
@@ -495,14 +542,18 @@ const DashboardAdmin = () => {
                           onClick={() => handleEditCurso(curso)}
                           title="Editar"
                         >
-                          <span className="material-symbols-outlined">edit</span>
+                          <span className="material-symbols-outlined">
+                            edit
+                          </span>
                         </button>
                         <button
                           className={styles.iconBtn}
                           onClick={() => handleDeleteCurso(curso.id)}
                           title="Eliminar"
                         >
-                          <span className="material-symbols-outlined">delete</span>
+                          <span className="material-symbols-outlined">
+                            delete
+                          </span>
                         </button>
                         {curso.ativo ? (
                           <button
@@ -510,7 +561,9 @@ const DashboardAdmin = () => {
                             onClick={() => handleDesativarCurso(curso.id)}
                             title="Desactivar"
                           >
-                            <span className="material-symbols-outlined">block</span>
+                            <span className="material-symbols-outlined">
+                              block
+                            </span>
                           </button>
                         ) : (
                           <button
@@ -518,7 +571,9 @@ const DashboardAdmin = () => {
                             onClick={() => handleAtivarCurso(curso.id)}
                             title="Activar"
                           >
-                            <span className="material-symbols-outlined">check_circle</span>
+                            <span className="material-symbols-outlined">
+                              check_circle
+                            </span>
                           </button>
                         )}
                       </div>
@@ -545,8 +600,10 @@ const DashboardAdmin = () => {
                 <input
                   type="text"
                   className={styles.formInput}
-                  value={cursoForm.titulo}
-                  onChange={(e) => setCursoForm({ ...cursoForm, titulo: e.target.value })}
+                  value={cursoForm.nome}
+                  onChange={(e) =>
+                    setCursoForm({ ...cursoForm, nome: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -556,7 +613,9 @@ const DashboardAdmin = () => {
                   type="text"
                   className={styles.formInput}
                   value={cursoForm.instituicao}
-                  onChange={(e) => setCursoForm({ ...cursoForm, instituicao: e.target.value })}
+                  onChange={(e) =>
+                    setCursoForm({ ...cursoForm, instituicao: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -566,7 +625,9 @@ const DashboardAdmin = () => {
                   type="text"
                   className={styles.formInput}
                   value={cursoForm.duracao}
-                  onChange={(e) => setCursoForm({ ...cursoForm, duracao: e.target.value })}
+                  onChange={(e) =>
+                    setCursoForm({ ...cursoForm, duracao: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -575,12 +636,16 @@ const DashboardAdmin = () => {
                 <textarea
                   className={styles.formInput}
                   rows="3"
-                  value={cursoForm.objetivos}
-                  onChange={(e) => setCursoForm({ ...cursoForm, objetivos: e.target.value })}
+                  value={cursoForm.descricao}
+                  onChange={(e) =>
+                    setCursoForm({ ...cursoForm, descricao: e.target.value })
+                  }
                   required
                 />
               </div>
-              <button type="submit" className={styles.submitBtn}>Criar Curso</button>
+              <button type="submit" className={styles.submitBtn}>
+                Criar Curso
+              </button>
             </form>
           </div>
         </div>
@@ -588,7 +653,10 @@ const DashboardAdmin = () => {
 
       {/* Edit Course Modal */}
       {editingCurso && (
-        <div className={styles.modalOverlay} onClick={() => setEditingCurso(null)}>
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setEditingCurso(null)}
+        >
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <h3>Editar Curso</h3>
             <form onSubmit={handleUpdateCurso}>
@@ -598,7 +666,12 @@ const DashboardAdmin = () => {
                   type="text"
                   className={styles.formInput}
                   value={editCursoData.titulo}
-                  onChange={(e) => setEditCursoData({ ...editCursoData, titulo: e.target.value })}
+                  onChange={(e) =>
+                    setEditCursoData({
+                      ...editCursoData,
+                      titulo: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
@@ -608,7 +681,12 @@ const DashboardAdmin = () => {
                   type="text"
                   className={styles.formInput}
                   value={editCursoData.instituicao}
-                  onChange={(e) => setEditCursoData({ ...editCursoData, instituicao: e.target.value })}
+                  onChange={(e) =>
+                    setEditCursoData({
+                      ...editCursoData,
+                      instituicao: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
@@ -618,7 +696,12 @@ const DashboardAdmin = () => {
                   type="text"
                   className={styles.formInput}
                   value={editCursoData.duracao}
-                  onChange={(e) => setEditCursoData({ ...editCursoData, duracao: e.target.value })}
+                  onChange={(e) =>
+                    setEditCursoData({
+                      ...editCursoData,
+                      duracao: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
@@ -628,15 +711,26 @@ const DashboardAdmin = () => {
                   className={styles.formInput}
                   rows="3"
                   value={editCursoData.objetivos}
-                  onChange={(e) => setEditCursoData({ ...editCursoData, objetivos: e.target.value })}
+                  onChange={(e) =>
+                    setEditCursoData({
+                      ...editCursoData,
+                      objetivos: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
               <div className={styles.modalButtons}>
-                <button type="button" onClick={() => setEditingCurso(null)} className={styles.cancelBtn}>
+                <button
+                  type="button"
+                  onClick={() => setEditingCurso(null)}
+                  className={styles.cancelBtn}
+                >
                   Cancelar
                 </button>
-                <button type="submit" className={styles.submitBtn}>Actualizar</button>
+                <button type="submit" className={styles.submitBtn}>
+                  Actualizar
+                </button>
               </div>
             </form>
           </div>
@@ -650,9 +744,7 @@ const DashboardAdmin = () => {
       <div className={styles.welcomeSection}>
         <div>
           <h2 className={styles.pageTitle}>Logs de Actividade</h2>
-          <p className={styles.pageSubtitle}>
-            Histórico de acções no sistema.
-          </p>
+          <p className={styles.pageSubtitle}>Histórico de acções no sistema.</p>
         </div>
       </div>
       <div className={styles.tableColumn}>
@@ -677,7 +769,9 @@ const DashboardAdmin = () => {
               ))}
               {filteredLogs.length === 0 && (
                 <tr>
-                  <td colSpan="4" style={{ textAlign: "center" }}>Nenhum log encontrado</td>
+                  <td colSpan="4" style={{ textAlign: "center" }}>
+                    Nenhum log encontrado
+                  </td>
                 </tr>
               )}
             </tbody>
@@ -719,11 +813,17 @@ const DashboardAdmin = () => {
                 <tr key={user.id}>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
-                  <td>{user.last_login ? new Date(user.last_login).toLocaleString() : "N/A"}</td>
+                  <td>
+                    {user.last_login
+                      ? new Date(user.last_login).toLocaleString()
+                      : "N/A"}
+                  </td>
                   <td>{user.last_ip || "N/A"}</td>
                   <td>
                     {user.failed_attempts > 3 ? (
-                      <span className={styles.abuseWarning}>Possível tentativa de abuso</span>
+                      <span className={styles.abuseWarning}>
+                        Possível tentativa de abuso
+                      </span>
                     ) : (
                       "Normal"
                     )}
@@ -732,14 +832,17 @@ const DashboardAdmin = () => {
               ))}
               {filteredActiveUsers.length === 0 && (
                 <tr>
-                  <td colSpan="5" style={{ textAlign: "center" }}>Nenhuma sessão activa encontrada</td>
+                  <td colSpan="5" style={{ textAlign: "center" }}>
+                    Nenhuma sessão activa encontrada
+                  </td>
                 </tr>
               )}
             </tbody>
           </table>
           <div className={styles.pagination}>
             <span className={styles.paginationInfo}>
-              Mostrando {filteredActiveUsers.length} de {activeUsers.length} sessões
+              Mostrando {filteredActiveUsers.length} de {activeUsers.length}{" "}
+              sessões
             </span>
           </div>
         </div>
@@ -769,7 +872,10 @@ const DashboardAdmin = () => {
             <a
               href="#"
               className={`${styles.navLink} ${activeMenu === "users" ? styles.navLinkActive : ""}`}
-              onClick={(e) => { e.preventDefault(); setActiveMenu("users"); }}
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveMenu("users");
+              }}
             >
               <span className="material-symbols-outlined">group</span>
               <span>Utilizadores</span>
@@ -777,7 +883,10 @@ const DashboardAdmin = () => {
             <a
               href="#"
               className={`${styles.navLink} ${activeMenu === "cursos" ? styles.navLinkActive : ""}`}
-              onClick={(e) => { e.preventDefault(); setActiveMenu("cursos"); }}
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveMenu("cursos");
+              }}
             >
               <span className="material-symbols-outlined">class</span>
               <span>Cursos</span>
@@ -785,7 +894,10 @@ const DashboardAdmin = () => {
             <a
               href="#"
               className={`${styles.navLink} ${activeMenu === "logs" ? styles.navLinkActive : ""}`}
-              onClick={(e) => { e.preventDefault(); setActiveMenu("logs"); }}
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveMenu("logs");
+              }}
             >
               <span className="material-symbols-outlined">history_edu</span>
               <span>Logs de Actividade</span>
@@ -793,7 +905,10 @@ const DashboardAdmin = () => {
             <a
               href="#"
               className={`${styles.navLink} ${activeMenu === "activeSessions" ? styles.navLinkActive : ""}`}
-              onClick={(e) => { e.preventDefault(); setActiveMenu("activeSessions"); }}
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveMenu("activeSessions");
+              }}
             >
               <span className="material-symbols-outlined">devices</span>
               <span>Sessões Activas</span>
@@ -856,7 +971,9 @@ const DashboardAdmin = () => {
 
           {/* Footer */}
           <footer className={styles.footer}>
-            <p>PEP - Sistema de Gestão de Estágios Profissionalizantes © 2023</p>
+            <p>
+              PEP - Sistema de Gestão de Estágios Profissionalizantes © 2023
+            </p>
           </footer>
         </div>
       </div>
