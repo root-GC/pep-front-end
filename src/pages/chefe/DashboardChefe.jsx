@@ -11,6 +11,7 @@ import {
   deleteInstituicao,
   getEstagios,
 } from '../../services/chefeService';
+import api from '../../api/api';  // ← adicionado: instância axios com interceptors
 import { useNavigate } from 'react-router-dom';
 
 // ===== Helpers =====
@@ -413,11 +414,17 @@ const DashboardChefe = () => {
     (e.titulo ?? e.title ?? e.descricao ?? '').toLowerCase().includes(search.toLowerCase())
   );
 
-  // Logout
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    navigate('/login');
+  // Logout melhorado: chama API e depois limpa o storage
+  const handleLogout = async () => {
+    try {
+      await api.post('/logout');
+    } catch (err) {
+      console.warn('Falha ao comunicar logout com servidor', err);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      navigate('/login');
+    }
   };
 
   return (

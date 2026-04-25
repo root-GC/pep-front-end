@@ -781,3 +781,80 @@ body {
 .text-primary {
   color: var(--primary);
 }
+/* ===== LOGOUT BUTTON ===== */
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 1rem;
+  margin: 1rem 0.5rem;
+  border-radius: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--slate-600);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  width: calc(100% - 1rem);
+  text-align: left;
+}
+
+.logoutBtn:hover {
+  background-color: rgba(2, 129, 51, 0.1);
+  color: var(--slate-900);
+}
+
+.logoutBtn .material-symbols-outlined {
+  font-size: 1.25rem;
+}
+
+/* ===== LOGOUT BUTTON ===== */
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 1rem;
+  margin: 1rem 0.5rem;
+  border-radius: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--slate-600);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  width: calc(100% - 1rem);
+  text-align: left;
+}
+
+.logoutBtn:hover {
+  background-color: rgba(2, 129, 51, 0.1);
+  color: var(--slate-900);
+}
+
+.logoutBtn .material-symbols-outlined {
+  font-size: 1.25rem;
+}
+
+/* ===== SAVE GRADE BUTTON ===== */
+.saveGradeBtn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.saveGradeBtn:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+}
+
+.saveGradeBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
