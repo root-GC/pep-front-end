@@ -15,10 +15,14 @@ import {
   desativarCurso,
   getActiveUsers,
 } from "../../services/adminService.js";
+import api from "../../api/api.js";                     // ← adicionado
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";       // ← adicionado
 
 const DashboardAdmin = () => {
+  const navigate = useNavigate();                     // ← adicionado
+
   // ========== Navigation ==========
   const [activeMenu, setActiveMenu] = useState("users");
 
@@ -257,6 +261,19 @@ const DashboardAdmin = () => {
       .toLowerCase()
       .includes(searchTerm.toLowerCase()),
   );
+
+  // ========== Logout ==========
+  const handleLogout = async () => {
+    try {
+      await api.post("/logout");
+    } catch (err) {
+      console.warn("Falha ao comunicar logout com servidor", err);
+    } finally {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      navigate("/login");
+    }
+  };
 
   // ========== Render Sections ==========
   const renderUsersSection = () => (
@@ -922,6 +939,12 @@ const DashboardAdmin = () => {
               <p className={styles.statusText}>Ambiente Online</p>
             </div>
           </div>
+
+          {/* Botão Sair */}
+          <button className={styles.logoutBtn} onClick={handleLogout}>
+            <span className="material-symbols-outlined">logout</span>
+            <span>Sair</span>
+          </button>
         </aside>
 
         {/* Main Content */}
