@@ -1,36 +1,4 @@
-/* ===== Variáveis ===== */
-
-:root {
-  --brand-green: #028133;
-  --brand-green-dark: #026B2A;
-
-  --background: #f5f7fb;
-  --card-bg: #ffffff;
-
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-
-  --border: #000000;
-}
-
-/* ===== Reset ===== */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--background);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ===== Container ===== */
+/* Login.module.css - apenas classes específicas do componente */
 
 .loginPage {
   width: 100%;
@@ -42,21 +10,13 @@ body {
   padding: 20px;
 }
 
-/* ===== Card ===== */
-
 .loginCard {
-  background: var(--card-bg);
+  background: #ffffff;
   border-radius: 14px;
-
-  box-shadow:
-    0 15px 30px rgba(0,0,0,0.06);
-
-  border: 2px solid var(--border);
-
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.06);
+  border: 2px solid #000000;
   padding: 32px;
 }
-
-/* ===== Header ===== */
 
 .loginHeader {
   display: flex;
@@ -65,28 +25,16 @@ body {
   margin-bottom: 28px;
 }
 
-/* ===== Logo ===== */
-
 .logo {
   width: 60px;
   height: 60px;
-
-  background: linear-gradient(
-    135deg,
-    #028133,
-    #03a347
-  );
-
+  background: linear-gradient(135deg, #028133, #03a347);
   border-radius: 14px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: white;
-
-  box-shadow: 0 10px 20px rgba(2,129,51,0.25);
-
+  box-shadow: 0 10px 20px rgba(2, 129, 51, 0.25);
   margin-bottom: 14px;
 }
 
@@ -97,16 +45,14 @@ body {
 .appTitle {
   font-size: 22px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #1e293b;
 }
 
 .appSubtitle {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: #64748b;
   text-align: center;
 }
-
-/* ===== Form ===== */
 
 .loginForm {
   display: flex;
@@ -118,10 +64,8 @@ body {
   font-size: 18px;
   font-weight: 700;
   text-align: center;
-  color: var(--text-primary);
+  color: #1e293b;
 }
-
-/* ===== Inputs ===== */
 
 .inputGroup {
   display: flex;
@@ -132,7 +76,7 @@ body {
 .inputGroup label {
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #1e293b;
 }
 
 .inputWrapper {
@@ -151,70 +95,48 @@ body {
 .inputField {
   width: 100%;
   height: 46px;
-
   border-radius: 8px;
-  border: 1px solid var(--border);
-
+  border: 1px solid #000000;
   padding: 0 14px 0 40px;
-
   font-size: 14px;
-
   background: #f8fafc;
-
   transition: all 0.2s ease;
 }
 
 .inputField:focus {
   outline: none;
-  border-color: var(--brand-green);
-  box-shadow: 0 0 0 3px rgba(2,129,51,0.15);
+  border-color: #028133;
+  box-shadow: 0 0 0 3px rgba(2, 129, 51, 0.15);
   background: white;
 }
 
-/* ===== Botão ===== */
-
 .loginButton {
   margin-top: 8px;
-
   height: 46px;
   width: 100%;
-
-  background: linear-gradient(
-    135deg,
-    #028133,
-    #03a347
-  );
-
+  background: linear-gradient(135deg, #028133, #03a347);
   color: white;
-
   border: none;
   border-radius: 8px;
-
   font-weight: 700;
   font-size: 15px;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-
   cursor: pointer;
-
-  box-shadow: 0 10px 20px rgba(2,129,51,0.2);
-
+  box-shadow: 0 10px 20px rgba(2, 129, 51, 0.2);
   transition: all 0.2s ease;
 }
 
 .loginButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 24px rgba(2,129,51,0.25);
+  box-shadow: 0 14px 24px rgba(2, 129, 51, 0.25);
 }
 
 .loginButton:active {
   transform: scale(0.97);
 }
-
-/* ===== Footer ===== */
 
 .loginFooter {
   margin-top: 20px;
@@ -226,36 +148,34 @@ body {
 
 .forgotLink {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: #64748b;
   text-decoration: none;
 }
 
 .forgotLink:hover {
-  color: var(--brand-green);
+  color: #028133;
 }
 
 .divider {
   width: 100%;
   height: 1px;
-  background: var(--border);
+  background: #000000;
 }
 
 .signupText {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: #64748b;
 }
 
 .signupLink {
-  color: var(--brand-green);
+  color: #028133;
   font-weight: 600;
   text-decoration: none;
 }
 
 .signupLink:hover {
-  color: var(--brand-green-dark);
+  color: #026b2a;
 }
-
-/* ===== Copyright ===== */
 
 .copyright {
   margin-top: 18px;

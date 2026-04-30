@@ -792,3 +792,93 @@ body {
   font-weight: 700;
   margin: 0;
 }
+
+/* ===== VARIABLES ===== */
+:root {
+  --primary: #028133;
+  --primary-dark: #026B2A;
+  --secondary: #F8D223;
+  --dark-grey: #1F2020;
+  --bg-light: #FFFFFF;
+  --bg-dark: #131f1a;
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --font-family: 'Manrope', sans-serif;
+}
+
+/* Dark mode support */
+:global(.dark) {
+  --bg-light: var(--bg-dark);
+  --slate-100: #1e293b;
+  --slate-200: #334155;
+  --slate-300: #475569;
+  --slate-400: #64748b;
+  --slate-500: #94a3b8;
+  --slate-600: #cbd5e1;
+  --slate-700: #e2e8f0;
+  --slate-800: #f1f5f9;
+  --slate-900: #f8fafc;
+}
+
+.dashboard {
+  background-color: var(--bg-light);
+  color: var(--slate-900);
+  min-height: 100vh;
+}
+
+.flexContainer {
+  display: flex;
+  min-height: 100vh;
+}
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  min-width: 400px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.cancelBtn {
+  background: var(--slate-200);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cancelBtn:hover {
+  background: var(--slate-300);
+}
+/* ... (todo o restante CSS fornecido permanece inalterado) ... */

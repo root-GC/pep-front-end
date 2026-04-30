@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import api from '../../api/api.js';
-import styles from './css/Login.module.css'; // Importação do CSS Module
-import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext.js";
+import styles from './css/Login.module.css';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext.js';
 
+// Mapeamento de roles (minúsculas, conforme seeder) para as rotas
 const dashboardByRole: Record<string, string> = {
-  ADMIN: "/admin/dashboard",
-  COORDENADOR: "/coordenador/dashboard",
-  ESTAGIARIO: "/estagiario/dashboard",
-  CHEFE_REPARTICAO: "/chefe/dashboard",
-  SUPERVISOR: "/supervisor/dashboard",
-  TUTOR: "/tutor/dashboard",
+  admin: '/admin/dashboard',
+  coordenador: '/coordenador/dashboard',
+  estudante: '/estagiario/dashboard',          // ← antes era "estagiario"
+  chefe_repartição: '/chefe/dashboard',        // ← antes era "chefe_reparticao"
+  supervisor: '/supervisor/dashboard',
+  tutor: '/tutor/dashboard',
 };
 
 const Login: React.FC = () => {
@@ -22,22 +23,26 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await api.post("/auth/login", { email, password });
+      const response = await api.post('/auth/login', { email, password });
       const { user, token } = response.data;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("roles", JSON.stringify(user.roles.map((r: any) => r.name)));
+      // Salva no localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      const roleNames = user.roles.map((r: any) => r.name);
+      localStorage.setItem('roles', JSON.stringify(roleNames));
 
+      // Atualiza o contexto
       setUser(user);
-      setRoles(user.roles.map((r: any) => r.name));
+      setRoles(roleNames);
 
-      const role = user.roles[0]?.name;
-      const target = dashboardByRole[role] || "/login";
+      // Define o destino de acordo com a primeira role
+      const role = roleNames[0];
+      const target = dashboardByRole[role] || '/login';
       navigate(target);
     } catch (error: any) {
-      alert("Credenciais inválidas");
-      console.error("Erro no login", error);
+      alert('Credenciais inválidas');
+      console.error('Erro no login', error);
     }
   };
 
@@ -99,7 +104,7 @@ const Login: React.FC = () => {
           </Link>
           <div className={styles.divider}></div>
           <p className={styles.signupText}>
-            Ainda não tem acesso? 
+            Ainda não tem acesso?
             <Link to="/solicitar-acesso" className={styles.signupLink}>
               Solicite aqui
             </Link>
