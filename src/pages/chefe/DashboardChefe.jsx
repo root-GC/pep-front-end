@@ -258,6 +258,7 @@ const DashboardChefe = () => {
     try {
       const { data } = await getUsers();
       setUsers(Array.isArray(data) ? data : (data.data ?? []));
+      console.log(users);
     } catch (err) {
       setError((e) => ({
         ...e,
@@ -391,6 +392,7 @@ const DashboardChefe = () => {
       } else {
         await updateInstituicao(instModal.id, instForm);
       }
+      console.log("ID da instituição:", instModal.id);
       setInstModal(null);
       fetchInstituicoes();
     } catch (err) {
@@ -980,7 +982,7 @@ const DashboardChefe = () => {
                 <table className={styles.table}>
                   <thead>
                     <tr>
-                      <th>Título / Descrição</th>
+                      {/* <th>Título / Descrição</th> */}
                       <th>Instituição</th>
                       <th>Estagiário</th>
                       <th>Status</th>
@@ -999,7 +1001,7 @@ const DashboardChefe = () => {
                     ) : (
                       filteredEstagios.map((e) => (
                         <tr key={e.id}>
-                          <td>{e.titulo ?? e.title ?? e.descricao ?? "—"}</td>
+                          {/* <td>{e.titulo ?? e.title ?? e.descricao ?? "—"}</td> */}
                           <td>
                             {e.instituicao?.nome ??
                               e.instituicao?.name ??
